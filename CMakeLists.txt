@@ -84,6 +84,7 @@ set(SOURCE_FILES
     src/scripting/natives/natives_entities.cpp
     src/scripting/natives/natives_voice.cpp
     src/scripting/natives/natives_metamod.cpp
+    src/scripting/natives/natives_protoparser.cpp
     src/core/managers/entity_manager.cpp
     src/core/managers/entity_manager.h
     src/core/managers/chat_manager.cpp
@@ -102,6 +103,8 @@ set(SOURCE_FILES
     src/core/game_system.cpp
     src/core/UserMessage.h
     src/core/UserMessage.cpp
+    src/core/ProtoParser.h
+    src/core/ProtoParser.cpp
     src/core/recipientfilters.h
 )
 

@@ -1,0 +1,12 @@
+PROTO_FROM_ADDRESS: address:pointer -> pointer
+PROTO_DELETE: proto:pointer -> void
+PROTO_HASFIELD: proto:pointer, fieldName:string -> bool
+PROTO_READINT: proto:pointer, fieldName:string, index:int -> int
+PROTO_READINT64: proto:pointer, fieldName:string, index:int -> int64
+PROTO_READFLOAT: proto:pointer, fieldName:string, index:int -> float
+PROTO_READBOOL: proto:pointer, fieldName:string, index:int -> bool
+PROTO_READSTRING: proto:pointer, fieldName:string, bufferSize:int, buffer:pointer, index:int -> void
+PROTO_GETREPEATEDFIELDCOUNT: proto:pointer, fieldName:string -> int
+PROTO_GETDEBUGSTRING: proto:pointer -> string
+PROTO_GETTYPENAME: proto:pointer -> string
+PROTO_GETMESSAGE: proto:pointer, fieldName:string, index:int -> pointer
