@@ -87,6 +87,8 @@ set(SOURCE_FILES
     src/core/cs2_sdk/schema.cpp
     src/core/function.cpp
     src/core/function.h
+    src/core/simd_call_stub.cpp
+    src/core/simd_call_stub.h
     src/scripting/natives/natives_memory.cpp
     src/scripting/natives/natives_schema.cpp
     src/scripting/natives/natives_entities.cpp

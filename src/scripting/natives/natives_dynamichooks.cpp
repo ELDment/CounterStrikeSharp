@@ -22,8 +22,22 @@
 #include "pch.h"
 #include "dynohook/core.h"
 #include "dynohook/manager.h"
+#include <cstdint>
+#include <cstring>
 
 namespace counterstrikesharp {
+
+template <size_t N> struct SimdBytes
+{
+    uint8_t bytes[N];
+};
+
+template <size_t N> static SimdBytes<N> ReadSimdBytes(const void* src)
+{
+    SimdBytes<N> value{};
+    std::memcpy(&value, src, N);
+    return value;
+}
 
 void DHookGetReturn(ScriptContext& script_context)
 {
@@ -80,6 +94,11 @@ void DHookGetReturn(ScriptContext& script_context)
             break;
         case DATA_TYPE_STRING:
             script_context.SetResult(hook->getReturnValue<const char*>());
+            break;
+        case DATA_TYPE_M128:
+        case DATA_TYPE_M256:
+        case DATA_TYPE_M512:
+            script_context.SetResult(hook->getReturnPtr());
             break;
         default:
             assert(!"Unknown function parameter type!");
@@ -145,6 +164,42 @@ void DHookSetReturn(ScriptContext& script_context)
         case DATA_TYPE_STRING:
             hook->setReturnValue(script_context.GetArgument<const char*>(valueIndex));
             break;
+        case DATA_TYPE_M128:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for return value");
+                break;
+            }
+
+            hook->setReturnValue(ReadSimdBytes<16>(valuePtr));
+            break;
+        }
+        case DATA_TYPE_M256:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for return value");
+                break;
+            }
+
+            hook->setReturnValue(ReadSimdBytes<32>(valuePtr));
+            break;
+        }
+        case DATA_TYPE_M512:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for return value");
+                break;
+            }
+
+            hook->setReturnValue(ReadSimdBytes<64>(valuePtr));
+            break;
+        }
         default:
             assert(!"Unknown function parameter type!");
             break;
@@ -207,6 +262,11 @@ void DHookGetParam(ScriptContext& script_context)
             break;
         case DATA_TYPE_STRING:
             script_context.SetResult(hook->getArgument<const char*>(paramIndex));
+            break;
+        case DATA_TYPE_M128:
+        case DATA_TYPE_M256:
+        case DATA_TYPE_M512:
+            script_context.SetResult(hook->getArgumentPtr(paramIndex));
             break;
         default:
             assert(!"Unknown function parameter type!");
@@ -273,6 +333,42 @@ void DHookSetParam(ScriptContext& script_context)
         case DATA_TYPE_STRING:
             hook->setArgument(paramIndex, script_context.GetArgument<const char*>(valueIndex));
             break;
+        case DATA_TYPE_M128:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for argument value");
+                break;
+            }
+
+            hook->setArgument(paramIndex, ReadSimdBytes<16>(valuePtr));
+            break;
+        }
+        case DATA_TYPE_M256:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for argument value");
+                break;
+            }
+
+            hook->setArgument(paramIndex, ReadSimdBytes<32>(valuePtr));
+            break;
+        }
+        case DATA_TYPE_M512:
+        {
+            void* valuePtr = script_context.GetArgument<void*>(valueIndex);
+            if (valuePtr == nullptr)
+            {
+                script_context.ThrowNativeError("Invalid SIMD pointer for argument value");
+                break;
+            }
+
+            hook->setArgument(paramIndex, ReadSimdBytes<64>(valuePtr));
+            break;
+        }
         default:
             assert(!"Unknown function parameter type!");
             break;

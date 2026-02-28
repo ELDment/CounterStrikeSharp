@@ -28,4 +28,5 @@ set(
     distorm
     funchook-static
     dynohook
+    asmjit
 )

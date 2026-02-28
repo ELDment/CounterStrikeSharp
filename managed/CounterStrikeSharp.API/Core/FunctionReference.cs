@@ -39,7 +39,7 @@ namespace CounterStrikeSharp.API.Core
     /// </summary>
     public class FunctionReference
     {
-        public unsafe delegate void CallbackDelegate(fxScriptContext* context);
+        public unsafe delegate void CallbackDelegate(FxScriptContext* context);
 
         private static readonly ConcurrentDictionary<int, FunctionReference> IdToFunctionReferencesMap = new();
         private static readonly ConcurrentDictionary<Delegate, FunctionReference> TargetMethodToFunctionReferencesMap = new();
