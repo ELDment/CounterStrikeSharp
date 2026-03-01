@@ -1,0 +1,46 @@
+From 117e617709e908cab2bb8a273047966e5bcc859e Mon Sep 17 00:00:00 2001
+From: Ambr0se <eldment@qq.com>
+Date: Sun, 1 Mar 2026 01:01:36 +0800
+Subject: [PATCH] feat: Add getArgumentPtr and getReturnPtr methods for raw
+ pointer access
+
+---
+ src/dynohook/hook.h | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/src/dynohook/hook.h b/src/dynohook/hook.h
+index 22a343c..6dddcaf 100644
+--- a/src/dynohook/hook.h
++++ b/src/dynohook/hook.h
+@@ -76,6 +76,10 @@ namespace dyno {
+             return *(T*) m_callingConvention->getArgumentPtr(index, m_registers);
+         }
+ 
++        void* getArgumentPtr(size_t index) const {
++            return m_callingConvention->getArgumentPtr(index, m_registers);
++        }
++
+         template<class T>
+         void setArgument(size_t index, T value) {
+             void* argumentPtr = m_callingConvention->getArgumentPtr(index, m_registers);
+@@ -88,6 +92,10 @@ namespace dyno {
+             return *(T*) m_callingConvention->getReturnPtr(m_registers);
+         }
+ 
++        void* getReturnPtr() const {
++            return m_callingConvention->getReturnPtr(m_registers);
++        }
++
+         template<class T>
+         void setReturnValue(T value) {
+             void* returnPtr = m_callingConvention->getReturnPtr(m_registers);
+@@ -157,4 +165,4 @@ namespace dyno {
+         // callbacks list
+         std::map<HookType, std::vector<HookHandler*>> m_handlers;
+     };
+-}
+\ No newline at end of file
++}
+-- 
+2.47.1.windows.2
+

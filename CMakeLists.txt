@@ -12,6 +12,8 @@ set(ZYDIS_BUILD_EXAMPLES OFF CACHE BOOL "Disable building examples for Zydis." F
 set(ZYDIS_BUILD_TOOLS OFF CACHE BOOL "Disable building tools for Zydis." FORCE)
 set(DYNOHOOK_BUILD_TESTS OFF CACHE BOOL "Disable building tests for funchook." FORCE)
 
+include("makefiles/patches.cmake")
+
 add_subdirectory(libraries/spdlog)
 add_subdirectory(libraries/dyncall)
 add_subdirectory(libraries/funchook)
