@@ -1,1 +1,2 @@
 managed/CounterStrikeSharp.API/Generated/**/*.cs text eol=crlf
+patches/*.patch text eol=lf
